@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendyGT | Moda que marca el ritmo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        :root {
+            --color-principal: #333;
+            --color-secundario: #555;
+            --color-acento: #007bff;
+            --color-claro: #f5f5f5;
+            --color-oscuro: #222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-claro);
+            color: var(--color-principal);
+            transition: background-color 0.5s ease;
+            overflow: hidden; /* Oculta el scroll durante la carga */
+        }
+        
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        /* Animación de entrada */
+        .cortina {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f5f5f5;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .cortina p {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-principal);
+            opacity: 0;
+            transition: opacity 1s ease-in-out 0.5s;
+        }
+
+        #contenido {
+            display: none;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+        
+        #contenido.mostrar {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Estilos de la página principal */
+        header {
+            background-color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        header .logo-header {
+            width: 80px;
+            height: auto;
+        }
+
+        nav a {
+            color: var(--color-principal);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--color-acento);
+        }
+
+        /* Sección de Inicio (Hero) con fondo blanco y letras negras */
+        .hero {
+            position: relative;
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Se cambia el color del texto a negro */
+            color: var(--color-principal);
+            text-align: center;
+            overflow: hidden;
+            /* Se cambia el fondo a blanco */
+            background-color: #fff;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        .btn {
+            background-color: var(--color-acento);
+            color: #fff;
+            padding: 0.75rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        main {
+            padding: 4rem 0;
+            background-color: var(--color-claro);
+        }
+
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            color: var(--color-oscuro);
+        }
+        
+        /* Sección Nosotros */
+        #nosotros {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            line-height: 1.6;
+        }
+
+        #nosotros p {
+            font-size: 1.1rem;
+            color: var(--color-secundario);
+            text-align: justify;
+        }
+
+        #nosotros .vision-mision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        #nosotros .vision-mision .item {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        #nosotros .vision-mision h3 {
+            font-size: 1.5rem;
+            color: var(--color-acento);
+            margin-bottom: 1rem;
+        }
+
+        #nosotros .valores ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding-top: 1rem;
+        }
+
+        #nosotros .valores li {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-weight: 500;
+        }
+        
+        /* Carrusel */
+        .carrusel-container {
+            position: relative;
+            overflow: hidden;
+            padding: 0 2rem;
+        }
+
+        .carrusel-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease-in-out;
+            padding: 20px 0;
+            width: max-content;
+        }
+
+        .carrusel-item {
+            min-width: 300px;
+            width: 300px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .carrusel-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .carrusel-item img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+
+        .carrusel-item .info-basica {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .carrusel-item .nombre-producto {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-oscuro);
+        }
+
+        .carrusel-item .precio-producto {
+            color: var(--color-acento);
+            font-weight: 700;
+        }
+
+        .carrusel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 10px;
+        }
+
+        .carrusel-nav button {
+            background-color: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+
+        .carrusel-nav button:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        /* Modal para productos */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 100;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            z-index: 101;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: modal-abrir 0.3s ease-out forwards;
+        }
+
+        @keyframes modal-abrir {
+            from { transform: translate(-50%, -60%) scale(0.9); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .modal-contenido {
+            text-align: center;
+        }
+
+        .modal-contenido img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .modal-contenido h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-contenido p {
+            margin-bottom: 1rem;
+            color: var(--color-secundario);
+        }
+
+        .cerrar-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--color-principal);
+            transition: color 0.3s ease;
+        }
+
+        .cerrar-modal:hover {
+            color: #ff0000;
+        }
+
+        /* Estilos para la sección de socios */
+        #socios .carrusel-item {
+            min-width: 250px;
+            height: auto;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, height 0.5s ease;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        #socios .carrusel-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            background-size: cover;
+            background-position: center;
+        }
+
+        #socios .carrusel-item:nth-child(1)::before {
+            background-color: #007bff; /* Azul */
+        }
+
+        #socios .carrusel-item:nth-child(2)::before {
+            background-color: #28a745; /* Verde */
+        }
+
+        #socios .carrusel-item:nth-child(3)::before {
+            background-color: #dc3545; /* Rojo */
+        }
+
+        #socios .carrusel-item:nth-child(4)::before {
+            background-color: #ffc107; /* Amarillo */
+        }
+
+        #socios .carrusel-item:nth-child(5)::before {
+            background-color: #17a2b8; /* Turquesa */
+        }
+
+        #socios .carrusel-item:nth-child(6)::before {
+            background-color: #6610f2; /* Morado (para Elmer) */
+        }
+
+        #socios .carrusel-item img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 1rem auto;
+            border: 3px solid var(--color-acento);
+        }
+
+        #socios .carrusel-item .info-basica {
+            padding: 0 1rem 1rem;
+        }
+
+        #socios .carrusel-item .info-detallada {
+            max-height: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: max-height 0.5s ease, opacity 0.5s ease, visibility 0.5s ease;
+            padding: 0 1rem;
+        }
+
+        #socios .carrusel-item.expandido {
+            height: auto;
+            transform: translateY(-10px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        #socios .carrusel-item.expandido .info-detallada {
+            max-height: 200px;
+            opacity: 1;
+            visibility: visible;
+            padding: 1rem;
+        }
+
+        /* FAQ */
+        #faq .faq-acordeon {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-pregunta {
+            background-color: #fff;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-pregunta:hover {
+            background-color: #f9f9f9;
+        }
+
+        .faq-pregunta span:last-child {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-respuesta {
+            padding: 1.5rem;
+            background-color: var(--color-claro);
+            display: none;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--color-oscuro);
+            color: var(--color-claro);
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        footer .container h3 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        footer .container p {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .redes-sociales {
+            margin-top: 1rem;
+        }
+        
+        .redes-sociales a {
+            color: var(--color-claro);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .redes-sociales a:hover {
+            color: var(--color-acento);
+        }
+
+        /* Nuevo estilo para la sección de video */
+        #video-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #video-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--color-oscuro);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            /* Relación de aspecto 16:9 */
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Media Queries para responsividad */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .carrusel-track {
+                justify-content: flex-start;
+            }
+        
+            .carrusel-item {
+                min-width: 250px;
+            }
+
+            footer .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            footer .container h3 {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cortina">
+        <p>TrendyGT ¡Bienvenidos!</p>
+    </div>
+
+    <div id="contenido">
+        
+        <header>
+            <img src="https://i.imgur.com/mtXni0q.jpeg" alt="Logo de TrendyGT" class="logo-header">
+            <nav>
+                <a href="#inicio">Inicio</a>
+                <a href="#nosotros">Nosotros</a>
+                <a href="#tienda">Tienda</a>
+                <a href="#socios">Socios</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </header>
+
+        <main>
+            <section id="inicio" class="hero">
+                <div class="hero-content">
+                    <h1>TrendyGT</h1>
+                    <p>Moda que marca el ritmo</p>
+                    <a href="#tienda" class="btn">Explorar Tienda</a>
+                </div>
+            </section>
+
+            <section id="nosotros">
+                <h2>Nuestra Historia</h2>
+                <p>En el 2025, nació nuestra empresa con una visión clara: acercar la moda de calidad a todos, tanto a quienes desean vestir bien como a quienes sueñan con iniciar su propio negocio. Desde el inicio, nos propusimos ofrecer ropa de excelente calidad, con precios accesibles y ofertas reales, para que nadie se quede sin la oportunidad de comprar o emprender. Nos especializamos en la venta al por mayor y al por menor, adaptándonos a las necesidades de cada cliente. Ya sea que estén en busca de prendas para uso personal o para empezar a generar ingresos revendiendo nuestros productos, nosotros somos un aliado confiable. Cada prenda que ofrecemos ha sido seleccionada con cuidado para garantizar durabilidad, estilo y un precio justo. Creemos que el acceso a la moda no debería ser un lujo, sino una oportunidad para todos. Hoy, seguimos creciendo con la misma pasión del primer día, apoyando a emprendedores, fortaleciendo comunidades y llevando ropa de calidad a cada rincón donde haya un cliente con ganas de avanzar. Nuestro compromiso es simple pero poderoso: **calidad, buenos precios y oportunidades**.</p>
+                <div class="vision-mision">
+                    <div class="item">
+                        <h3>Visión</h3>
+                        <p>Ser la tienda de ropa líder en Guatemala, reconocida por ofrecer moda accesible, actual y de calidad tanto para mayoristas como para minoristas, consolidándose como un referente de confianza y estilo en el mercado nacional.</p>
+                    </div>
+                    <div class="item">
+                        <h3>Misión</h3>
+                        <p>Ofrecer a nuestros clientes prendas modernas, versátiles y de excelente calidad, adaptadas a las últimas tendencias, brindando atención personalizada y precios competitivos que satisfacen las necesidades de distribuidores mayoristas y consumidores finales.</p>
+                    </div>
+                </div>
+                <div class="valores">
+                    <h3>Nuestros Valores</h3>
+                    <ul>
+                        <li>Calidad: Garantizamos prendas duraderas y bien elaboradas.</li>
+                        <li>Innovación: Nos mantenemos a la vanguardia en moda y tendencias.</li>
+                        <li>Confianza: Cumplimos con nuestros clientes mayoristas y minoristas de manera transparente.</li>
+                        <li>Compromiso: Trabajamos con pasión para satisfacer las necesidades de cada cliente.</li>
+                        <li>Accesibilidad: Ofrecemos precios justos y competitivos sin sacrificar estilo ni calidad.</li>
+                        <li>Responsabilidad: Valoramos el impacto social y económico de nuestro trabajo en la comunidad.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="tienda">
+                <h2>Nuestros Productos</h2>
+                <div class="carrusel-container">
+                    <div id="carrusel-tienda" class="carrusel-track">
+                    </div>
+                    <div class="carrusel-nav">
+                        <button class="prev-btn">&lt;</button>
+                        <button class="next-btn">&gt;</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="socios">
+                <h2>Nuestros Socios</h2>
+                <div class="carrusel-container">
+                    <div id="carrusel-socios" class="carrusel-track">
+                    </div>
+                    <div class="carrusel-nav">
+                        <button class="prev-btn">&lt;</button>
+                        <button class="next-btn">&gt;</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="faq">
+                <h2>Preguntas Frecuentes</h2>
+                <div id="faq-acordeon">
+                </div>
+            </section>
+
+            <section id="video-section">
+                <h2>Conoce TrendyGT en video</h2>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/E8M-iJ0p-Xk?autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer id="contacto">
+            <div class="container">
+                <div>
+                    <h3>TrendyGT</h3>
+                    <p>Moda que marca el ritmo, con calidad, buenos precios y oportunidades.</p>
+                </div>
+                <div>
+                    <h3>Contacto y Ubicación</h3>
+                    <p><strong>Dirección:</strong> Centro Comercial Videre, Nivel 1, Local 12, Zona 15, Ciudad de Guatemala.</p>
+                    <p><strong>Teléfono:</strong> (+502) 2478-5690</p>
+                    <p><strong>Correo electrónico:</strong> info.trendygt@gmail.com</p>
+                    <p><strong>Horario:</strong> Lunes a sábado de 9:00 a.m. a 7:00 p.m.</p>
+                </div>
+                <div>
+                    <h3>Síguenos</h3>
+                    <div class="redes-sociales">
+                        <a href="https://www.facebook.com/share/1LmdiTbUnM/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/trendy.gt__/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@trendygt61?_t=ZM-8z6bso1kB6u&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 2rem;">&copy; 2025 TrendyGT. Todos los derechos reservados.</p>
+        </footer>
+
+        <div id="overlay" class="modal-overlay"></div>
+        <div id="modal-producto" class="modal">
+            <span class="cerrar-modal">&times;</span>
+            <div class="modal-contenido">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cortina = document.querySelector('.cortina');
+            const cortinaTexto = cortina.querySelector('p');
+            const contenido = document.getElementById('contenido');
+            const overlay = document.getElementById('overlay');
+            const modalProducto = document.getElementById('modal-producto');
+            const modalContenido = modalProducto.querySelector('.modal-contenido');
+            const cerrarModalBtn = modalProducto.querySelector('.cerrar-modal');
+
+            const fondos = ['#f5f5f5', '#f0f0f0', '#e9e9e9'];
+            let fondoIndex = 0;
+
+            const productos = [
+                { nombre: 'Conjunto Moderno y Urbano', precio: 'Q 450.00', precioMayorista: 'Q 300.00 c/u', descripcion: 'Este conjunto combina la audacia de una chamarra de motociclista en un tono verde militar con la simplicidad de una camiseta blanca ajustada. Se complementa con unos jeans anchos de color gris claro, creando una silueta moderna y relajada. El toque final lo dan las zapatillas blancas clásicas, que le dan un aire fresco y casual, ideal para un estilo urbano y vanguardista. Disponible en varias tallas.', imagen: 'https://i.imgur.com/wytA8WD.jpeg'},
+                { nombre: 'Estilo Casual y Acogedor', precio: 'Q 350.00', precioMayorista: 'Q 250.00 c/u', descripcion: 'Perfecto para un día cómodo y elegante, este conjunto presenta un cárdigan y top a juego en un suave color beige claro. Se combina con unos jeans de mezclilla de corte ancho y oscuro, que contrastan con la parte superior y aportan una sensación de fluidez. Las zapatillas en tonos neutros completan el look, ideal para una salida de fin de semana o una tarde relajada.', imagen: 'https://i.imgur.com/ZruuaQN.jpeg' },
+                { nombre: 'Elegancia Casual con Textura', precio: 'Q 500.00', precioMayorista: 'Q 350.00 c/u', descripcion: 'Este atuendo combina texturas y estilos para un look sofisticado y moderno. La pieza central es una chaqueta de cuero oversized de color negro, que añade un toque de rebeldía. Debajo, una camiseta blanca ajustada crea un contraste limpio. Los jeans anchos en un tono de mezclilla medio añaden un volumen interesante. Los accesorios, como un reloj y pulsera dorados y un bolso de hombro negro brillante, elevan el conjunto, dándole una sensación de lujo discreto. Las zapatillas mantienen el look anclado en lo casual.', imagen: 'https://i.imgur.com/A63e4Xs.jpeg' },
+                { nombre: 'Esencia Minimalista', precio: 'Q 280.00', precioMayorista: 'Q 190.00 c/u', descripcion: 'Este look es la máxima expresión del minimalismo con un toque de calle. Consiste en una camiseta negra lisa y unos jeans anchos de color gris. La sencillez del atuendo se ve realzada por la elección de unas zapatillas deportivas clásicas en blanco y negro, que aportan un elemento de diseño sin sobrecargar el estilo. Es un conjunto versátil, cómodo y fácil de adaptar a cualquier ocasión.', imagen: 'https://i.imgur.com/7FU1988.jpeg' },
+                { nombre: 'Clásico Refinado', precio: 'Q 380.00', precioMayorista: 'Q 270.00 c/u', descripcion: 'Un conjunto impecable que combina elementos atemporales. La pieza clave es un polo de punto en color blanco crema, que aporta una textura elegante y un corte impecable. Se combina con unos jeans de corte recto en un tono azul clásico. El look se completa con unas zapatillas blancas de estilo atemporal, asegurando una apariencia limpia y sofisticada.', imagen: 'https://i.imgur.com/DryOq6d.jpeg' }
+            ];
+            const socios = [
+                { nombre: 'Alejandra Saenz', profesion: 'Lic. en Administración con Orientación de Recursos Humanos', contacto: 'alejandra.saenz@trendygt.com', descripcion: 'Licenciada en Administración con una sólida orientación en Recursos Humanos.', imagen: 'Alejandra' },
+                { nombre: 'Marvin Muralles', profesion: 'Lic. en Administración con Orientación en Tecnología', contacto: 'marvin.muralles@trendygt.com', descripcion: 'Licenciado en Administración con experiencia en Tecnologías de la Información.', imagen: 'Marvin' },
+                { nombre: 'Larissa Aguilar', profesion: 'Lic. en Administración con Orientación en Marketing', contacto: 'larissa.aguilar@trendygt.com', descripcion: 'Licenciada en Administración con enfoque en la gestión del talento humano.', imagen: 'Larissa' },
+                { nombre: 'Javier Rivera', profesion: 'Lic. en Administración con orientacion en Mercadotecnia', contacto: 'javier.rivera@trendygt.com', descripcion: 'Licenciado en Administración especializado en estrategias de Mercadotecnia.', imagen: 'Javier' },
+                { nombre: 'Gabriela Dorantes', profesion: 'Lic. en Administración con orientacion en Recursos Humanos', contacto: 'gabriela.dorantes@trendygt.com', descripcion: 'Licenciada en Administración con pasión por el desarrollo de Recursos Humanos.', imagen: 'Gabriela' },
+                { nombre: 'Elmer Moreno', profesion: 'Lic. en Administración con orientacion en Mercadotecnia', contacto: 'elmer.moreno@trendygt.com', descripcion: 'Ingeniero en sistemas con un sólido enfoque en el desarrollo de software y la optimización de procesos.', imagen: 'Elmer' }
+            ];
+            const faqData = [
+                { pregunta: '¿Dónde se ubican?', respuesta:'Centro Comercial Videre nivel 1. Local 12. Zona 15' },
+                { pregunta: '¿Qué tipo de ropa venden?', respuesta: 'Ofrecemos ropa de calidad para todo tipo de clientes: casual, elegante, básica y de temporada. Tenemos prendas para dama, caballero y niños.' },
+                { pregunta: '¿Cuál es la política de devoluciones?', respuesta: 'Puedes devolver productos en un plazo de 30 días con el recibo original. Los productos deben estar sin usar y con sus etiquetas.' },
+                { pregunta: '¿Cómo puedo comprar al por mayor?', respuesta: 'Solo debes contactarnos y te enviaremos nuestro catálogo mayorista. Las compras al por mayor aplican desde un mínimo de 12 piezas y obtienes precios especiales.' },
+                { pregunta: '¿Hacen envíos a todo el país?', respuesta: 'Sí, realizamos envíos a todo el país mediante empresas de paquetería confiables.' },
+                { pregunta: '¿Venden por unidad o solo al por mayor?', respuesta: 'Vendemos tanto al por menor (por unidad) como al por mayor. Si quieres una prenda para ti o hacer una compra más grande para revender, ¡estás en el lugar correcto!' },
+                { pregunta: '¿Qué métodos de pago aceptan?', respuesta: 'Aceptamos transferencias bancarias, pagos contarjeta y efectivo (en tienda)' },
+                { pregunta: '¿Puedo revender sus productos?', respuesta: '¡Claro que sí! De hecho, muchos de nuestros clientes compran para emprender. Te damos los mejores precios para que puedas obtener buenas ganancias revendiéndolos.' },
+            ];
+            function cambiarFondo() {
+                document.body.style.background = fondos[(fondoIndex = (fondoIndex + 1) % fondos.length)];
+            }
+
+            function inicializarCarrusel(trackId, data, templateCallback) {
+                const carruselTrack = document.getElementById(trackId);
+                if (!carruselTrack) return;
+                const container = carruselTrack.closest('.carrusel-container');
+                const prevBtn = container.querySelector('.prev-btn');
+                const nextBtn = container.querySelector('.next-btn');
+
+                carruselTrack.innerHTML = '';
+                data.forEach((item, index) => carruselTrack.appendChild(templateCallback(item, index)));
+                
+                let currentIndex = 0;
+                const items = carruselTrack.querySelectorAll('.carrusel-item');
+                const itemsCount = items.length;
+                if (itemsCount === 0) return;
+                
+                const updateCarousel = () => {
+                    const itemWidth = items[0].offsetWidth + 20;
+                    const offset = -currentIndex * itemWidth;
+                    carruselTrack.style.transform = `translateX(${offset}px)`;
+                };
+                
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        currentIndex = (currentIndex + 1) % itemsCount;
+                        updateCarousel();
+                    });
+                }
+                
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        currentIndex = (currentIndex - 1 + itemsCount) % itemsCount;
+                        updateCarousel();
+                    });
+                }
+                
+                window.addEventListener('resize', updateCarousel);
+                updateCarousel();
+            }
+
+            function showModal(data) {
+                modalContenido.innerHTML = `
+                    <img src="${data.imagen}" alt="${data.nombre}">
+                    <h4>${data.nombre}</h4>
+                    <p>${data.descripcion}</p>
+                    <p><strong>Precio:</strong> ${data.precio}</p>
+                    <p><strong>Precio Mayorista:</strong> ${data.precioMayorista}</p>
+                `;
+                modalProducto.style.display = 'block';
+                overlay.style.display = 'block';
+                document.body.classList.add('no-scroll');
+            }
+
+            function hideModal() {
+                modalProducto.style.display = 'none';
+                overlay.style.display = 'none';
+                document.body.classList.remove('no-scroll');
+            }
+
+            const productoTemplate = (producto) => {
+                const item = document.createElement('div');
+                item.classList.add('carrusel-item');
+                item.dataset.producto = JSON.stringify(producto);
+                item.innerHTML = `
+                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <div class="info-basica">
+                        <p class="nombre-producto">${producto.nombre}</p>
+                        <p class="precio-producto">${producto.precio}</p>
+                    </div>
+                `;
+                item.addEventListener('click', () => {
+                    const data = JSON.parse(item.dataset.producto);
+                    showModal(data);
+                });
+                return item;
+            };
+
+            const socioTemplate = (socio) => {
+                const item = document.createElement('div');
+                item.classList.add('carrusel-item');
+                item.innerHTML = `
+                    <img src="${socio.imagen}" alt="Foto de ${socio.nombre}">
+                    <div class="info-basica">
+                        <p><strong>${socio.nombre}</strong></p>
+                        <p>${socio.profesion}</p>
+                    </div>
+                    <div class="info-detallada">
+                        <p>${socio.descripcion}</p>
+                        <p>Contacto: ${socio.contacto}</p>
+                    </div>
+                `;
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.carrusel-item.expandido').forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('expandido');
+                        }
+                    });
+                    item.classList.toggle('expandido');
+                });
+                return item;
+            };
+
+            function inicializarFaq() {
+                const faqAcordeon = document.getElementById('faq-acordeon');
+                faqData.forEach((item) => {
+                    const faqItem = document.createElement('div');
+                    faqItem.classList.add('faq-item');
+                    faqItem.innerHTML = `
+                        <div class="faq-pregunta">
+                            <span>${item.pregunta}</span>
+                            <span>&#9660;</span>
+                        </div>
+                        <div class="faq-respuesta">${item.respuesta}</div>
+                    `;
+                    faqAcordeon.appendChild(faqItem);
+                    const pregunta = faqItem.querySelector('.faq-pregunta');
+                    pregunta.addEventListener('click', () => {
+                        const respuesta = pregunta.nextElementSibling;
+                        const flecha = pregunta.querySelector('span:last-child');
+                        if (respuesta.style.display === 'block') {
+                            respuesta.style.display = 'none';
+                            flecha.innerHTML = '&#9660;';
+                        } else {
+                            document.querySelectorAll('.faq-respuesta').forEach(r => r.style.display = 'none');
+                            document.querySelectorAll('.faq-pregunta span:last-child').forEach(f => f.innerHTML = '&#9660;');
+                            respuesta.style.display = 'block';
+                            flecha.innerHTML = '&#9650;';
+                        }
+                    });
+                });
+            }
+
+            // Lógica de la secuencia de carga
+            setTimeout(() => {
+                cortinaTexto.style.opacity = '1';
+            }, 500);
+            setTimeout(() => {
+                cortina.style.opacity = '0';
+            }, 3000);
+            cortina.addEventListener('transitionend', (e) => {
+                if (e.propertyName === 'opacity' && cortina.style.opacity === '0') {
+                    cortina.style.display = 'none';
+                    document.body.style.overflow = 'auto'; // Habilita el scroll
+                    contenido.style.display = 'block';
+                    contenido.classList.add('mostrar');
+
+                    setTimeout(cambiarFondo, 500);
+                    setInterval(cambiarFondo, 2000);
+
+                    inicializarCarrusel('carrusel-tienda', productos, productoTemplate);
+                    inicializarCarrusel('carrusel-socios', socios, socioTemplate);
+                    inicializarFaq();
+                }
+            });
+            // Event listeners para el modal y overlay
+            cerrarModalBtn.addEventListener('click', hideModal);
+            overlay.addEventListener('click', hideModal);
+        });
+    </script>
+</body>
+</html>
